@@ -5,7 +5,7 @@ import MapComponent from './MapComponent';
 import { Box, Flex, Button, Spacer, SimpleGrid, Text, UnorderedList, ListItem, Heading } from '@chakra-ui/react';
 function Home() {
   const [users, setUsers] = useState(userData);
-  const { myFormat, setMyFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPageCount } = useMyContext()
+  const { myFormat, setMyFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPageCount, page, setPage } = useMyContext()
   const totalUsers = userData.length;
   const totalPages = Math.ceil(totalUsers / pageCount);
 
@@ -13,6 +13,7 @@ function Home() {
     setSelectedUser(user)
   }
   useEffect(() => {
+    setPage('Page')
     // When currentPage or pageCount changes, update the displayed users
     setCurrentPage((prevPage) => Math.min(prevPage, totalPages));
     const startIndex = (currentPage - 1) * pageCount;
@@ -107,7 +108,7 @@ function Home() {
               fontSize='2xl'
               color='teal'
             >
-            PostCode:{selectedUser.address.postcode}
+            PostCode: {selectedUser.address.postcode}
           </Text>
           <Text
               marginRight='10px'

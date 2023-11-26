@@ -11,6 +11,7 @@ export const MyContextProvider = ({ children }) => {
     const [ currentPage, setCurrentPage ] = useState(1)
     const [ selectedUser, setSelectedUser ] = useState(null)
     const [ pageCount, setPageCount ] = useState(10);
+    const [ page, setPage ] = useState(null)
     useEffect(() => {
         if(currentPage <= 0){
                     setCurrentPage(1)
@@ -20,7 +21,7 @@ export const MyContextProvider = ({ children }) => {
         
 
     return (
-        <MyContext.Provider value={{ myFormat, setMyFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPageCount }}>
+        <MyContext.Provider value={{ myFormat, setMyFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPageCount, page, setPage }}>
             { children }
         </MyContext.Provider>
     );

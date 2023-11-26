@@ -2,7 +2,7 @@ import { Heading, Button, VStack, Flex } from '@chakra-ui/react';
 import { useMyContext } from './Context';
 
 function SideBar() {
-  const { myFormat, setMyFormat, currentPage, setCurrentPage, pageCount, setPageCount } = useMyContext();
+  const { myFormat, setMyFormat, currentPage, setCurrentPage, pageCount, setPageCount, page, setPage } = useMyContext();
 
 
   function contentCount(e) {
@@ -62,17 +62,23 @@ function SideBar() {
       <Heading w="100%" as="h1" size="xl" mb={4}>
         Format
       </Heading>
-      <Button w="100%" colorScheme="teal" onClick={() => setMyFormat('line')}>
-        Line
-      </Button>
-      <Button w="100%" colorScheme="teal" onClick={() => setMyFormat('grid')}>
-        Grid
-      </Button>
-      <Button w="100%" colorScheme="teal" onClick={(e) => contentCount(e)}>
-        {pageCount} Results
-      </Button>
+      {page === 'Page' && (
+        <>
+         <Button w="100%" colorScheme="teal" onClick={() => setMyFormat('line')}>
+            Line
+          </Button>
+          <Button w="100%" colorScheme="teal" onClick={() => setMyFormat('grid')}>
+            Grid
+          </Button>
+          <Button w="100%" colorScheme="teal" onClick={(e) => contentCount(e)}>
+            {pageCount} Results
+          </Button>        
+        </>
+      )}
+      
+
       <Flex direction="column" alignItems="center" w="100%">
-        <p>{`Page ${currentPage}`}</p>
+        <p>{`${page} ${currentPage}`}</p>
       </Flex>
       <Flex alignItems="center" w="100%">
         <Button w="8px" h="100%" onClick={(e) => paginateHandle(e, -5)}>
@@ -88,9 +94,6 @@ function SideBar() {
           +5
         </Button>
       </Flex>
-      <Button w="100%" colorScheme="teal" onClick={() => console.log(pageCount, myFormat)}>
-        Checks
-      </Button>
     </VStack>
   );
 }
