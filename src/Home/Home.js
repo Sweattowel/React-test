@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useMyContext } from '../Context';
 import userData from './data.json'; 
 import MapComponent from './MapComponent';
-import { Box, Flex, Button, Spacer, SimpleGrid, Text, UnorderedList, ListItem, Heading } from '@chakra-ui/react';
+import { Box, Flex, Button, SimpleGrid, Text, UnorderedList, ListItem, Heading } from '@chakra-ui/react';
 function Home() {
   const [users, setUsers] = useState(userData);
-  const { myFormat, setMyFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPageCount, page, setPage } = useMyContext()
+  const { myFormat, currentPage, setCurrentPage,  selectedUser, setSelectedUser, pageCount, setPage } = useMyContext()
   const totalUsers = userData.length;
   const totalPages = Math.ceil(totalUsers / pageCount);
 
@@ -19,7 +19,7 @@ function Home() {
     const startIndex = (currentPage - 1) * pageCount;
     const endIndex = startIndex + pageCount;
     setUsers(userData.slice(startIndex, endIndex));
-  }, [currentPage, pageCount, totalPages, setCurrentPage]);
+  }, [currentPage, pageCount, totalPages, setCurrentPage,setPage]);
 
  
   return (
@@ -73,8 +73,8 @@ function Home() {
       </Box>
 
       {selectedUser && (
-        <Flex p="4" direction='column' w='60%' h='80vh'>
-          <MapComponent user={selectedUser} h='1000px'/>
+        <Flex p="4" direction='column' w='60%' h='60vh'>
+          <MapComponent user={selectedUser} h='600px'/>
           <Flex direction='column' marginLeft='10px'>
             <Heading
             color='teal'

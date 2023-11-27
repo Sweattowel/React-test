@@ -1,25 +1,54 @@
-import { Box, Button, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, OrderedList, ListItem, Text } from '@chakra-ui/react';
 import userData from '../Home/data.json';
 import { useEffect, useState } from 'react';
 import { useMyContext } from '../Context';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function About() {
-    const monthNames = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-      ];
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
   const [signUpData, setSignUpData] = useState([]);
   const [users, setUsers] = useState([]);
   const [minYear, setMinYear] = useState(Infinity);
   const [maxYear, setMaxYear] = useState(-Infinity);
+  const [leastRisk, setLeastRisk] = useState([])
+  const [mostRisk, setMostRisk] = useState([])
   const { setCurrentPage, currentPage, setPage } = useMyContext();
-
+  const [countryCount, setCountryCount] = useState({})
+// init setup of users and creation of most and least at risk users as well as country assingment
   useEffect(() => {
     if (!users.length) {
       setUsers(userData);
     }
+    
+    const storage = users
+    const newData = {}
+    for (const user of users){
+      let country = user.countryCode
+      if (!newData[country]){
+        newData[country] = 1
+      } else {
+        newData[country]++
+      }
+    }
+    setCountryCount(newData)
+    storage.sort((a, b) => {
+      if (a.totalLogins < b.totalLogins){
+        return -1
+      }
+      if (a.totalLogins > b.totalLogins){
+        return 1
+      }
+      return 0
+    })
+    const top5users = storage.slice(storage.length - 5, storage.length).reverse()
+    const low5users = storage.slice(0, 5)
+    setLeastRisk(top5users)
+    setMostRisk(low5users)
   }, [users]);
 
+// create and set max and min year as well as year variables
   useEffect(() => {
     const newData = {};
 
@@ -52,6 +81,7 @@ export default function About() {
     setCurrentPage(minYear !== Infinity ? minYear : 2020);
   }, [users, minYear, maxYear, setPage, setCurrentPage]);
 
+  // configure sidebar to match the set page
   useEffect(() => {
     setPage('Year');
     if (currentPage < minYear) {
@@ -90,6 +120,41 @@ export default function About() {
           />
         </BarChart>
       </ResponsiveContainer>
+      <Flex marginLeft='300px' flexDirection='row' >
+      <Box marginLeft={8}>
+        <Heading marginBottom={5}>
+          At risk
+        </Heading>
+        <OrderedList pl={4}>
+            {mostRisk.map((user, index) => (
+              <ListItem marginBottom={1} fontSize='xl' key={user.id}>{user.username}: {user.totalLogins}</ListItem>
+            ))}
+          </OrderedList>
+        </Box>
+        <Box marginLeft={100} >
+          <Heading marginBottom={5}>
+            Least risk
+          </Heading>
+          <OrderedList pl={4}  >
+            {leastRisk.map((user, index) => (
+              <ListItem marginBottom={1} fontSize='xl' key={user.id}>{user.username}: {user.totalLogins}</ListItem>
+            ))}
+          </OrderedList>
+      </Box>
+      <Box marginLeft={100}>
+        <Heading>
+          Total Users: {users.length}
+        </Heading>
+              <Heading fontSize='x-large' marginBottom={'10px'}>
+                By country
+              </Heading>
+        <OrderedList>
+          {Object.entries(countryCount).map(([country, count]) => (
+            <ListItem key={country}>{country}: {count}</ListItem>
+          ))}
+        </OrderedList>
+      </Box>
+      </Flex>
     </>
   );
 }

@@ -2,7 +2,7 @@ import { Heading, Button, VStack, Flex } from '@chakra-ui/react';
 import { useMyContext } from './Context';
 
 function SideBar() {
-  const { myFormat, setMyFormat, currentPage, setCurrentPage, pageCount, setPageCount, page, setPage } = useMyContext();
+  const { setMyFormat, currentPage, setCurrentPage, pageCount, setPageCount, page,  } = useMyContext();
 
 
   function contentCount(e) {
