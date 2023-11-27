@@ -56,13 +56,14 @@ function Home() {
           </Flex>
         ) : (
           <SimpleGrid columns={3} spacing={4}>
-            {users.map((user) => (
+            { users.map((user) => (
                  <Button
-                 colorScheme={selectedUser.id === user.id ? 'teal' : 'gray'}
+                 colorScheme={selectedUser ? selectedUser.id === user.id ? 'teal' : 'gray' : 'teal'}
                  onClick={() => changeUser(user)}
                  format={myFormat}
                  marginBottom='4'
                  border='1px solid black'
+                 key={user.id}
                >
                  <Text marginRight='5px'> {user.username}</Text>
                  <Text marginRight='5px'>ID: {user.id}</Text>

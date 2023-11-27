@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, OrderedList, ListItem, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, OrderedList, ListItem } from '@chakra-ui/react';
 import userData from '../Home/data.json';
 import { useEffect, useState } from 'react';
 import { useMyContext } from '../Context';

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import Home from './Home/Home';
